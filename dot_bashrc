@@ -1,0 +1,110 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Start ssh-agent if not already running
+if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+    ssh-agent > ~/.ssh/agent.env
+fi
+if [[ ! "$SSH_AUTH_SOCK" ]]; then
+    source ~/.ssh/agent.env > /dev/null
+fi
+
+### Input ###
+
+bind 'set completion-ignore-case on'
+
+
+### Aliases ###
+
+# Produces better columns for output cat file | table
+alias table='column  -t | less -S'
+# show the whitespaces in a file
+alias whitespace="sed 's/ /·/g;s/\t/￫/g;s/\r/§/g;s/$/¶/g'"
+
+# add color to grep and ls
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias ls='ls --color=auto -v'
+PS1='[\u@\h \W]\$ '
+
+# File and folder size
+alias du='du -kh'                   # Makes a more readable output.
+alias df='df -kTh'
+alias dd='du -sch *'
+alias dG='du -hs * | awk '$1~"G"''  #show all files/folders with a size in the Gigabytes
+alias dT='du -hs * | awk '$1~"T"''  #show all files/folders with a size in the Terabytes
+
+# shortcuts for ls
+alias lh='ls -lh'          # sort in readable way
+alias la='ls -AlL'         # show hidden files and show size of files that are softlinked
+alias lx='ls -lXB'         # sort by extension
+alias lk='ls -lSr'         # sort by size, biggest last
+alias lc='ls -ltcr'        # sort by and show change time, most recent last
+alias lu='ls -ltur'        # sort by and show access time, most recent last
+alias lt='ls -ltr'         # sort by date, most recent last
+alias lm='ls -al '#'|more '    # pipe through 'more'
+alias lr='ls -lR'          # recursive ls
+alias ld='ls -d */'        # list directories only
+alias ll='ls -l'
+alias lsr='tree -Csu'      # nice alternative to 'recursive ls'
+alias dirtree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'"
+
+# better files haha
+#alias ll='ls -al --color=auto'
+
+# Fuzzy finder
+alias ff="fzf --preview 'bat --style=numbers --color=always {}"
+
+# Directories
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+# bash
+alias bashreload="source ~/.config/bash/bashrc"
+
+#git shortcuts
+alias git-commit-count="git log --pretty=format:'' | wc -l"
+alias gc='git commit -m'
+alias gpom='git push origin main'
+alias gpomr='git push origin master'
+alias ga='git add'
+alias gpr='find . -type d -name .git -exec sh -c "cd \"{}\"/../ && pwd && git pull" \;'
+alias gclone='git clone git clone git@github.com:GITHUBID/$1'  # update your gitorganization or ID here
+alias gittree="git log --all --decorate --oneline --graph"  # commandline push history
+
+# HPC
+#alias si="sinfo -o \"%20P %5D %14F %8z %10m %10d %11l %16f %N\""
+#alias sq="squeue -o \"%8i %30j %4t %10u %20q %20a %10g %20P %10Q %5D %11l %11L %R %Z\""
+#alias sacct='sacct --format JobID,Partition,Timelimit,Start,Elapsed,NodeList%20,ExitCode,ReqMem,MaxRSS,MaxVMSize,AllocCPUS'
+
+# KDE
+
+alias kdereload='killall plasmashell; nohup plasmashell &'
+
+
+### Exports ###
+
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+# Extend PATH to find locally installed programs or scripts
+case ":$PATH:" in
+    *:/home/naitsa/.nimble/bin:*) ;;
+    *) export PATH="/home/naitsa/.nimble/bin:$PATH" ;;
+esac
+case ":$PATH:" in
+    *:$HOME/bin:*) ;;
+    *) export PATH="$HOME/bin:$PATH" ;;
+esac
+case ":$PATH:" in
+    *:$HOME/.local/bin:*) ;;
+    *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+
+# Mise
+eval "$(mise activate bash)"
