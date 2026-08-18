@@ -13,10 +13,13 @@ if [[ ! "$SSH_AUTH_SOCK" ]]; then
     source ~/.ssh/agent.env > /dev/null
 fi
 
+### Defaults ###
+
+export EDITOR="micro"
+
 ### Input ###
 
 bind 'set completion-ignore-case on'
-
 
 ### Aliases ###
 
