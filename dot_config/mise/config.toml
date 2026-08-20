@@ -7,8 +7,8 @@ python = "latest"
 
 [env]
 EDITOR = "micro"
-NUGET_PACKAGES = "~/.local/share/nuget"
-DOTNET_CLI_HOME = "~/.local/share/dotnet-cli"
+#NUGET_PACKAGES = "~/.local/share/nuget"
+#DOTNET_CLI_HOME = "~/.local/share/dotnet-cli"
 XDG_CONFIG_HOME = "~/.config"
 XDG_DATA_HOME = "~/.local/share"
 XDG_CACHE_HOME = "~/.cache"
