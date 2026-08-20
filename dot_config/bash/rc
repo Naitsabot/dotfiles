@@ -109,5 +109,10 @@ case ":$PATH:" in
     *) export PATH="$HOME/.local/bin:$PATH" ;;
 esac
 
+# Don't manage DOTNET with mise
+export DOTNET_ROOT="$HOME/.dotnet"
+export PATH="$DOTNET_ROOT:$PATH"
+export DOTNET_MULTILEVEL_LOOKUP=0
+
 # Mise
 eval "$(mise activate bash)"
